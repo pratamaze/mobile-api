@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id                Int                @id @default(autoincrement())
+  created_at        DateTime?          @default(now())
+  updated_at        DateTime?          @updatedAt
+  full_name         String?
+  email             String?
+  profile_image_url String?
+  
+  job_applications  job_applications[]
+  cv_files          cv_files[]
+}
+
+model job_applications {
+  id               Int           @id @default(autoincrement())
+  created_at       DateTime?     @default(now())
+  updated_at       DateTime?     @updatedAt
+  template_id      Int?
+  title            String?
+  user_id          Int?
+  company_data_id  Int?
+  letter_data_id   Int?
+  personal_data_id Int?
+  
+  user         users?         @relation(fields: [user_id], references: [id])
+  company_data company_data?  @relation(fields: [company_data_id], references: [id])
+  letter_data  letter_data?   @relation(fields: [letter_data_id], references: [id])
+  personal_data personal_data? @relation(fields: [personal_data_id], references: [id])
+}
+
+model cv_files {
+  id                     Int  @id @default(autoincrement())
+  created_at             DateTime? @default(now())
+  updated_at             DateTime? @updatedAt
+  template_id            Int?
+  title                  String?
+  user_id                Int?
+  certification_data_id  Int?
+  education_data_id      Int?
+  experience_data_id     Int?
+  language_id            Int?
+  organization_data_id   Int?
+  personal_data_id       Int?
+  skills_id              Int?
+  social_media_data_id   Int?
+  
+  user          users?         @relation(fields: [user_id], references: [id])
+  personal_data personal_data? @relation(fields: [personal_data_id], references: [id])
+}
+
+model company_data {
+  id              Int      @id @default(autoincrement())
+  company_name    String?
+  company_address String?
+  letter_date     DateTime?
+  recipient       String?
+  
+  job_applications job_applications[]
+}
+
+model letter_data {
+  id      Int     @id @default(autoincrement())
+  content String?
+  
+  job_applications job_applications[]
+}
+
+model personal_data {
+  id             Int     @id @default(autoincrement())
+  email          String?
+  full_name      String?
+  info_1         String?
+  info_2         String?
+  position       String?
+  signature_path String?
+  wa_number      String?
+  
+  job_applications job_applications[]
+  cv_files         cv_files[]
+}
+
+model certification_data {
+  id         Int       @id @default(autoincrement())
+  issue_date DateTime?
+  issuer     String?
+  name       String?
+}
+
+model education_data {
+  id          Int       @id @default(autoincrement())
+  degree      String?
+  decription  String?
+  start_date  DateTime?
+  end_date    DateTime?
+  field       String?
+  school      String?
+}
+
+model experience_data {
+  id          Int       @id @default(autoincrement())
+  company     String?
+  description String?
+  start_date  DateTime?
+  end_date    DateTime?
+  location    String?
+  position    String?
+  status      String?
+}
+
+model language {
+  id       Int     @id @default(autoincrement())
+  language String?
+}
+
+model organization_data {
+  id          Int       @id @default(autoincrement())
+  name        String?
+  description String?
+  start_date  DateTime?
+  end_date    DateTime?
+  role        String?
+}
+
+model skills {
+  id    Int     @id @default(autoincrement())
+  skill String?
+}
+
+model social_media_data {
+  id   Int     @id @default(autoincrement())
+  type String?
+  link String?
+}

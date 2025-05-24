@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  mobile-api:
+    build: .
+    container_name: mobile-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mobile-db
+    environment:
+      - DATABASE_URL=postgresql://mobile_user:mobile_password@mobile-db:5432/mobile_db
+    restart: unless-stopped
+
+  mobile-db:
+    image: postgres:15-alpine
+    container_name: mobile-db
+    environment:
+      POSTGRES_USER: mobile_user
+      POSTGRES_PASSWORD: mobile_password
+      POSTGRES_DB: mobile_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  db_data:
