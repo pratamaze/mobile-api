@@ -13,7 +13,7 @@ app.get("/health", async (_req, res) => {
     await prisma.$queryRaw`SELECT 1`
     res.json({
       status: "OK",
-      message: "Mobile API is running",
+      message: "cvzn API is running",
       database: "Connected",
     })
   } catch (error) {

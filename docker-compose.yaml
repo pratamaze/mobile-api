@@ -1,26 +1,26 @@
 version: "3.9"
 
 services:
-  mobile-api:
+  cvzn-api:
     build: .
-    container_name: mobile-api
+    container_name: cvzn-api
     ports:
       - "3000:3000"
     depends_on:
-      - mobile-db
+      - cvzn-db
     environment:
-      - DATABASE_URL=postgresql://mobile_user:mobile_password@mobile-db:5432/mobile_db
+      - DATABASE_URL=postgresql://cvzn_user:cvzn_password@cvzn-db:5432/cvzn_db
     restart: unless-stopped
     networks:
       - my-custom-network
 
-  mobile-db:
+  cvzn-db:
     image: postgres:15-alpine
-    container_name: mobile-db
+    container_name: cvzn-db
     environment:
-      POSTGRES_USER: mobile_user
-      POSTGRES_PASSWORD: mobile_password
-      POSTGRES_DB: mobile_db
+      POSTGRES_USER: cvzn_user
+      POSTGRES_PASSWORD: cvzn_password
+      POSTGRES_DB: cvzn_db
     ports:
       - "5432:5432"
     volumes:
@@ -31,7 +31,7 @@ services:
 
 networks:
   my-custom-network:
-    name: mobile-network
+    name: cvzn-network
     driver: bridge
 
 volumes:
