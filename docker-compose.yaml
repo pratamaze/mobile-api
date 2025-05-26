@@ -11,6 +11,8 @@ services:
     environment:
       - DATABASE_URL=postgresql://mobile_user:mobile_password@mobile-db:5432/mobile_db
     restart: unless-stopped
+    networks:
+      - my-custom-network
 
   mobile-db:
     image: postgres:15-alpine
@@ -24,6 +26,13 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     restart: unless-stopped
+    networks:
+      - my-custom-network
+
+networks:
+  my-custom-network:
+    name: mobile-network
+    driver: bridge
 
 volumes:
   db_data:
