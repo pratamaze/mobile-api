@@ -1,5 +1,5 @@
 {
-  "name": "mobile-api",
+  "name": "pos-api",
   "module": "index.ts",
   "type": "module",
   "private": true,
