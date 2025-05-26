@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
+model user {
   id                Int                @id @default(autoincrement())
   created_at        DateTime?          @default(now())
   updated_at        DateTime?          @updatedAt
@@ -17,6 +17,8 @@ model users {
   
   job_applications  job_applications[]
   cv_files          cv_files[]
+
+  @@map("users")
 }
 
 model job_applications {
@@ -30,7 +32,7 @@ model job_applications {
   letter_data_id   Int?
   personal_data_id Int?
   
-  user         users?         @relation(fields: [user_id], references: [id])
+  user         user?         @relation(fields: [user_id], references: [id])
   company_data company_data?  @relation(fields: [company_data_id], references: [id])
   letter_data  letter_data?   @relation(fields: [letter_data_id], references: [id])
   personal_data personal_data? @relation(fields: [personal_data_id], references: [id])
@@ -52,7 +54,7 @@ model cv_files {
   skills_id              Int?
   social_media_data_id   Int?
   
-  user          users?         @relation(fields: [user_id], references: [id])
+  user          user?         @relation(fields: [user_id], references: [id])
   personal_data personal_data? @relation(fields: [personal_data_id], references: [id])
 }
 
